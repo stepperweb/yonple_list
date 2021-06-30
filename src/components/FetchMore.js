@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 
-const FetchMore = ({ loading, setPage }) => {
+const FetchMore = ({ setPage }) => {
   const fetchMoreTrigger = useRef(null);
   const fetchMoreObserver = new IntersectionObserver(([{ isIntersecting }]) => {
     if (isIntersecting) setPage((prev) => prev + 1);
@@ -13,13 +13,7 @@ const FetchMore = ({ loading, setPage }) => {
     };
   }, []);
 
-  return (
-    <div
-      id="fetchMore"
-      className={loading ? "loading" : ""}
-      ref={fetchMoreTrigger}
-    />
-  );
+  return <div id="fetchMore" ref={fetchMoreTrigger} />;
 };
 
 export default FetchMore;
