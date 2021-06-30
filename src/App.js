@@ -27,18 +27,7 @@ function App() {
   const [page, setPage] = useState(0);
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  // const handleScroll = (event) => {
-  //   const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
-
-  //   console.log("scrollTop :", scrollTop);
-  //   console.log("clientHeight :", clientHeight);
-  //   console.log("scrollHeight :", scrollHeight);
-
-  //   if (scrollHeight - scrollTop === clientHeight) {
-  //     setPage((prev) => prev + 1);
-  //   }
-  // };
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const loadLists = async () => {
@@ -54,31 +43,36 @@ function App() {
   return (
     <div className="App">
       <Heading />
+      <input
+        type="text"
+        placeholder="검색어를 입력하시오"
+        onChange={(e) => {
+          setSearch(e.target.value);
+        }}
+      />
       <GlobalStyle />
-
-      {/* <div onScroll={handleScroll}>
+      <div>
         {lists &&
-          lists.map((list) => (
-            <List
-              key={list.id}
-              id={list.id}
-              title={list.title}
-              content={list.content}
-            />
-          ))}
-      </div>
-      {loading && <Loading />} */}
-      <div id="app" className={page === 0 && loading ? <Loading /> : ""}>
-        {lists &&
-          lists.map((list) => (
-            <List
-              key={list.id}
-              id={list.id}
-              title={list.title}
-              content={list.content}
-            />
-          ))}
-        <FetchMore loading={page !== 0 && loading} setPage={setPage} />
+          lists
+            .filter((val) => {
+              if (search === "") {
+                return val;
+              } else if (
+                val.title.toLowerCase().includes(search.toLowerCase())
+              ) {
+                return val;
+              }
+            })
+            .map((list) => (
+              <List
+                key={list.id}
+                id={list.id}
+                title={list.title}
+                content={list.content}
+              />
+            ))}
+        <FetchMore setPage={setPage} />
+        {loading && <Loading />}
       </div>
     </div>
   );
