@@ -8,9 +8,9 @@ const FetchMore = ({ setPage }) => {
 
   useEffect(() => {
     fetchMoreObserver.observe(fetchMoreTrigger.current);
-    return () => {
-      fetchMoreObserver.unobserve(fetchMoreTrigger.currentTarget);
-    };
+    // return () => {
+    //   fetchMoreObserver.unobserve(fetchMoreTrigger.currentTarget);
+    // };
   }, []);
 
   return <div id="fetchMore" ref={fetchMoreTrigger} />;

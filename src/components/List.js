@@ -1,16 +1,44 @@
 import React from "react";
 import styled from "styled-components";
 
-const Li = styled.div``;
+import { Link } from "react-router-dom";
 
-function List(props) {
+const Li = styled.div`
+  p {
+    line-height: 1.4rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: #000;
+    display: inline-block;
+    padding: 10px;
+
+    &:hover {
+      border-radius: 5px;
+      background: rgba(59, 130, 246, 0.7);
+      color: #fff;
+      transition: 0.2s;
+    }
+  }
+  margin: 5px;
+`;
+
+function List({ id, title, content }) {
   return (
     <Li>
-      <h3>
-        <span>{props.id}. </span>
-        {props.title}
-      </h3>
-      <p>{props.content}</p>
+      <Link
+        to={{
+          pathname: `/detail/${id}`,
+          state: { id, title, content },
+        }}
+      >
+        <h3>
+          <span>{id}. </span>
+          {title}
+        </h3>
+        <p>{content.slice(0, 350)}...</p>
+      </Link>
     </Li>
   );
 }
