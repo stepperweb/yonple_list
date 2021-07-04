@@ -1,6 +1,8 @@
 import React from "react";
-import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
+
+//css
+import styled from "styled-components";
 
 const Header = styled.header`
   max-width: 70rem;
@@ -41,6 +43,15 @@ const SearchBar = styled.div`
   }
 `;
 
+//검색어 입력시 150ms debounce 적용
+const debounce = (func, delay) => {
+  let timeout = null;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(func.bind(null, ...args), delay);
+  };
+};
+
 function Heading({ setSearch }) {
   return (
     <>
@@ -56,7 +67,7 @@ function Heading({ setSearch }) {
           type="text"
           placeholder="검색어를 입력하세요"
           onChange={(e) => {
-            setSearch(e.target.value);
+            debounce(setSearch(e.target.value), 150);
           }}
         />
       </SearchBar>
