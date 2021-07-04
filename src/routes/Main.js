@@ -1,28 +1,16 @@
 import React, { useEffect, useState } from "react";
+
+//components
 import List from "../components/List";
-import FetchMore from "../components/FetchMore";
+import LoadMore from "../components/LoadMore";
 import Loading from "../components/Loading";
 import Heading from "../components/Heading";
+
+//css style
 import styled from "styled-components";
 
+//get Api
 import { getLists } from "../components/Api";
-
-const TabMenu = styled.div`
-  display: flex;
-  width: 60%;
-  margin: 0 auto;
-
-  & .tabs {
-    font-size: 1.5rem;
-    margin: 5px;
-    cursor: pointer;
-  }
-
-  & .tabs.active {
-    font-weight: 700;
-    color: red;
-  }
-`;
 
 const Wrapper = styled.section`
   width: 60%;
@@ -43,76 +31,43 @@ const Wrapper = styled.section`
 
 function Main() {
   const [page, setPage] = useState(0);
-  const [type, setTpye] = useState("a");
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [toggle, setToggle] = useState(1);
 
   useEffect(() => {
     const loadLists = async () => {
       setLoading(true);
-      const newLists = await getLists(page, type);
+      const newLists = await getLists(page);
       setLists((prev) => [...prev, ...newLists]);
       setLoading(false);
     };
 
     loadLists();
-  }, [page, type]);
-
-  const toggleTab = (index) => {
-    setToggle(index);
-  };
+  }, [page]);
 
   return (
-    <div className="App">
+    <div className="Main">
       <Heading setSearch={setSearch} />
-
-      <TabMenu>
-        <div
-          className={toggle === 1 ? "tabs active" : "tabs"}
-          onClick={() => {
-            toggleTab(1);
-          }}
-        >
-          A-Type
-        </div>
-        <div
-          className={toggle === 2 ? "tabs active" : "tabs"}
-          onClick={() => {
-            toggleTab(2);
-          }}
-        >
-          B-Type
-        </div>
-      </TabMenu>
       <Wrapper>
-        <div className={toggle === 1 ? "content active-content" : "content"}>
-          {lists &&
-            lists
-              .filter((val) => {
-                if (search === "") {
-                  return val;
-                } else if (
-                  val.title.toLowerCase().includes(search.toLowerCase())
-                ) {
-                  return val;
-                }
-              })
-              .map((list) => (
-                <List
-                  key={list.id}
-                  id={list.id}
-                  title={list.title}
-                  content={list.content}
-                />
-              ))}
-          <FetchMore setPage={setPage} />
-          {loading && <Loading />}
-        </div>
-        <div className={toggle === 2 ? "content active-content" : "content"}>
-          Type-B
-        </div>
+        {lists
+          .filter((val) => {
+            if (search === "") {
+              return val;
+            } else if (val.title.toLowerCase().includes(search.toLowerCase())) {
+              return val;
+            }
+          })
+          .map((list) => (
+            <List
+              key={list.id}
+              id={list.id}
+              title={list.title}
+              content={list.content}
+            />
+          ))}
+        <LoadMore setPage={setPage} />
+        {loading && <Loading />}
       </Wrapper>
     </div>
   );
