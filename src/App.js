@@ -2,7 +2,7 @@ import React from "react";
 import Main from "./routes/Main";
 import Detail from "./components/Detail";
 
-import { BrowserRouter, Route } from "react-router-dom";
+import { HashRouter, Route } from "react-router-dom";
 
 import { createGlobalStyle } from "styled-components";
 
@@ -25,10 +25,10 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <BrowserRouter>
+      <HashRouter>
         <Route path="/" exact={true} component={Main} />
         <Route path="/detail/:id" component={Detail} />
-      </BrowserRouter>
+      </HashRouter>
     </>
   );
 }
