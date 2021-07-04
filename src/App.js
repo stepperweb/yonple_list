@@ -1,6 +1,5 @@
 import React from "react";
 import Main from "./routes/Main";
-import Heading from "./components/Heading";
 import Detail from "./components/Detail";
 
 import { BrowserRouter, Route } from "react-router-dom";
